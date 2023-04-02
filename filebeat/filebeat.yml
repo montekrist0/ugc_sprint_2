@@ -1,0 +1,21 @@
+filebeat.inputs:
+- type: log
+  tags: [ 'nginx_ugc2' ]
+  enabled: true
+  paths:
+    - /var/log/nginx/*
+  json:
+    keys_under_root: true
+    add_error_key: true
+#- type: log
+#  enabled: true
+#  paths:
+#    - /var/log/ugc.*
+#  tags: [ 'ugc2_app' ]
+#  json:
+#    keys_under_root: true
+#    add_error_key: true
+
+output.logstash:
+  enabled: true
+  hosts: ["logstash:5045"]
