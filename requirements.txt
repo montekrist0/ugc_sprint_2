@@ -1,2 +1,4 @@
 wemake-python-styleguide==0.17.0
 mypy==1.1.1
+uvicorn==0.21.1
+fastapi==0.95.0
