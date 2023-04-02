@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  ...
+
+  fastapi:
+    build:
+      context: ../ugc_fastapi
+    image: ugcfastapi-image
+    env_file:
+      - ./.env
+    depends_on:
+      kafka-zookeeper:
+        condition: service_healthy
+
+    container_name: ugcfastapi_container
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+
+  tests:
+    image: ugcfastapi-image
+    depends_on:
+      - fastapi
+    container_name: tests_container
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/tests
+      - ./functional/.env.docker:/tests/functional/.env
+    entrypoint: >
+      sh -c "pip install -r /tests/requirements.txt
+      && python3 /tests/functional/utils/wait_for_mongo.py
+      && python3 -m pytest /tests/functional/src/ -vv"
