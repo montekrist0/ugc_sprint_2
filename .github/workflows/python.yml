@@ -21,13 +21,12 @@ jobs:
       with:
         node-version: 16
 
-    - uses: actions/checkout@v2
+#    - uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-        node-version: 16
 
 
     - name: Install dependencies
