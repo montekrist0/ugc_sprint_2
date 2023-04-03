@@ -1,6 +1,6 @@
 filebeat.inputs:
 - type: log
-  tags: [ 'nginx_ugc2' ]
+  tags: [ 'ugc2_nginx' ]
   enabled: true
   paths:
     - /var/log/nginx/*
@@ -18,4 +18,4 @@ filebeat.inputs:
 
 output.logstash:
   enabled: true
-  hosts: ["logstash:5045"]
+  hosts: ["ugc2_logstash:5045"]
