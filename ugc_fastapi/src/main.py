@@ -15,11 +15,13 @@ app = FastAPI(
 
 
 @app.on_event("startup")
-async def startup(): ...
+async def startup():
+    pass
 
 
 @app.on_event("shutdown")
-async def shutdown(): ...
+async def shutdown():
+    pass
 
 
 if __name__ == "__main__":
