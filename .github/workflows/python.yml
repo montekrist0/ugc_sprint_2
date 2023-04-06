@@ -49,5 +49,5 @@ jobs:
       uses: "appleboy/telegram-action@master"
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: @{{ secrets.TELEGRAM_TOKEN }}
-#        args: Build on branch ${{ steps.extract_branch.outputs.branch }} complete
+        token: &{{ secrets.TELEGRAM_TOKEN }}
+        args: Build on branch ${{ steps.extract_branch.outputs.branch }} complete
