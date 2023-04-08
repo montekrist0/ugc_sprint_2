@@ -47,7 +47,7 @@ async def remove_like_film(like_id: str):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='like not deleted')
 
 
-@router.patch('',
+@router.put('',
               response_model=LikeUgcModelResponse,
               summary='Изменение рейтинга у фильма')
 async def change_rating_film(like_data: LikeUgcModel):

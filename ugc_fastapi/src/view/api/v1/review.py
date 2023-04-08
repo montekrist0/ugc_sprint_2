@@ -14,7 +14,7 @@ from view.services.pagination import get_pagination_parameters
 router = APIRouter()
 
 
-@router.get('films/{films_id}',
+@router.get('/films/{films_id}',
             response_model=list[ReviewUgcModelResponse],
             summary='Список закладок с фильмами для юзера')
 async def get_reviews_films(films_id: UUID,
@@ -37,7 +37,7 @@ async def add_review_film(review_data: ReviewUgcModel):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not created')
 
 
-@router.patch('',
+@router.put('',
               response_model=ReviewUgcModelResponse,
               summary='Изменение ревью')
 async def change_review_film(review_data: ReviewUgcModel):

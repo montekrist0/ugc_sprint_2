@@ -24,8 +24,8 @@ class ReviewUgcModel(BaseModel):
     film_id: UUID
     user_id: UUID
     text: str
-    ratings: list[RatingReview]
-    avg_rating_review: float
+    # ratings: list[RatingReview]
+    # avg_rating_review: float
     created: datetime | None
 
     @validator('created', pre=True, always=True)
