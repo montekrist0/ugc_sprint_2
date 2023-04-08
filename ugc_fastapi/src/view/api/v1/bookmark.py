@@ -29,7 +29,7 @@ async def get_bookmarks_films(user_id: UUID,
 @router.post('',
              response_model=BookMarkUgcModelResponse,
              summary='Добавление закладки с фильмом для юзера')
-async def add_bookmarks_films(bookmark_data: BookMarkUgcModel, user_id: UUID):
+async def add_bookmarks_films(bookmark_data: BookMarkUgcModel):
     bookmark = ...
     if bookmark:
         return Response(content=bookmark, status_code=status.HTTP_201_CREATED)
