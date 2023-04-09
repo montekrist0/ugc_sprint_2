@@ -14,3 +14,7 @@ class LikeUgcModelResponse(BaseModel):
     film_id: UUID
     user_id: UUID
     rating: int = Field(ge=0, le=10)
+
+
+class LikeUgcModelPatch(BaseModel):
+    rating: int = Field(ge=0, le=10)
