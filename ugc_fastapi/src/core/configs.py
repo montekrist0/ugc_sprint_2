@@ -15,10 +15,10 @@ logging.basicConfig(level=logging.INFO,
 class Settings(BaseSettings):
     mongo_host: str = Field(env="MONGO_HOST", default='localhost')
     mongo_port: int = Field(env='MONGO_PORT', default='27017')
-    mongo_db: str = Field(env='MONGO_DBT', default='ugc2')
-    mongo_collection_like: str = 'likedFilms'
-    mongo_collection_bookmarks: str = 'bookmarksFilms'
-    mongo_collection_reviewed: str = 'reviewedFilms'
+    mongo_db: str = Field(env='MONGO_DB', default='ugc2_films')
+    mongo_collection_like: str = 'liked_films'
+    mongo_collection_bookmarks: str = 'bookmarks_films'
+    mongo_collection_reviewed: str = 'reviewed_films'
 
 
 settings = Settings()

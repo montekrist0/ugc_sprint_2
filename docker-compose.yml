@@ -4,12 +4,12 @@ services:
   ugc2_mongo_db:
     image: mongo:4.4.20-rc0-focal
     restart: always
-    mem_limit: 1g
-    cpus: 0.5
     expose:
       - "27017"
     environment:
-      MONGO_INITDB_DATABASE: ugc2
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+    volumes:
+      - ./db/mongo:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD", "mongo", "--eval", "db.runCommand('ping').ok" ]
       interval: 30s
