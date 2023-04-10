@@ -5,8 +5,8 @@ from pydantic import BaseModel, validator
 
 
 class BookMarkUgcModel(BaseModel):
-    film_id: UUID
-    user_id: UUID
+    film_id: str
+    user_id: str
     created: datetime | None
 
     @validator('created', pre=True, always=True)
@@ -16,6 +16,6 @@ class BookMarkUgcModel(BaseModel):
 
 class BookMarkUgcModelResponse(BaseModel):
     id: str
-    film_id: UUID
-    user_id: UUID
+    film_id: str
+    user_id: str
     created: datetime

@@ -6,11 +6,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 path_log_file = os.path.join(BASE_DIR, 'log/logfile.json')
 
-logging.basicConfig(level=logging.INFO,
-                    format='{"timestamp": "%(asctime)s", "severity": "%(levelname)s",'
-                           ' "module": "%(module)s", "message": %(message)s}',
-                    filename=path_log_file)
-
 
 class Settings(BaseSettings):
     mongo_host: str = Field(env="MONGO_HOST", default='localhost')
@@ -22,3 +17,12 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+logger = logging.getLogger(__name__)
+formatter = logging.Formatter(
+    '{"timestamp": "%(asctime)s", "severity": "%(levelname)s", "module": "%(module)s", "message": %(message)s}'
+)
+file_handler = logging.FileHandler('log/logfile.json')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)

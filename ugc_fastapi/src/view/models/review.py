@@ -1,23 +1,22 @@
 from datetime import datetime
-from uuid import UUID
 
 from pydantic import BaseModel, validator
 
 
 class RatingReview(BaseModel):
-    user_id: UUID
+    user_id: str
     rating: int
 
 
 class RatingReviewDelete(BaseModel):
-    user_id: UUID
+    user_id: str
 
 
 class ReviewUgcModelResponse(BaseModel):
     id: str
-    film_id: UUID
-    user_id: UUID
-    likedFilms_id: str
+    film_id: str
+    user_id: str
+    liked_films_id: str
     text: str
     ratings: list[RatingReview]
     avg_rating_review: float
@@ -25,8 +24,8 @@ class ReviewUgcModelResponse(BaseModel):
 
 
 class ReviewUgcModel(BaseModel):
-    film_id: UUID
-    user_id: UUID
+    film_id: str
+    user_id: str
     text: str
     ratings: list[RatingReview]
     avg_rating_review: float
@@ -38,10 +37,11 @@ class ReviewUgcModel(BaseModel):
 
 
 class ReviewUgcModelPost(BaseModel):
-    film_id: UUID
-    user_id: UUID
+    film_id: str
+    user_id: str
     text: str
     created: datetime | None
+    liked_films_id: str | None
 
     @validator('created', pre=True, always=True)
     def set_created(cls, v):

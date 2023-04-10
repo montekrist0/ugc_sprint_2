@@ -6,6 +6,7 @@ from fastapi import (APIRouter,
                      Response,
                      status)
 
+from core.configs import logger
 from view.models.user_films_like import (LikeUgcModelResponse,
                                          LikeUgcModel,
                                          LikeUgcModelPatch)
@@ -20,16 +21,18 @@ router = APIRouter()
 @router.get('/films/{film_id}',
             response_model=list[LikeUgcModelResponse],
             summary='Список лайков фильма')
-async def get_likes_list_for_film(film_id: UUID,
+async def get_likes_list_for_film(film_id: str,
                                   pagination_parameters: PaginataionParameters = Depends(get_pagination_parameters),
                                   like_service: LikeService = Depends(get_like_service)):
-    filter_ = {'film_id': str(film_id)}
+    filter_ = {'film_id': film_id}
     likes = await like_service.find(filter_,
                                     pagination_parameters.page_number,
                                     pagination_parameters.page_size)
     if likes:
+        logger.exception(f"Film {film_id} likes {likes}")
         return Response(content=likes, status_code=status.HTTP_200_OK)
     else:
+        logger.exception(f"Film {film_id} likes not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='likes not found')
 
 
@@ -38,13 +41,12 @@ async def get_likes_list_for_film(film_id: UUID,
              summary='Добавление лайка фильму')
 async def add_like_film(like_data: LikeUgcModel,
                         like_service: LikeService = Depends(get_like_service)):
-    like_data = like_data.dict()
-    like_data['film_id'] = str(like_data['film_id'])
-    like_data['user_id'] = str(like_data['user_id'])
-    like = await like_service.insert_one(like_data)
+    like = await like_service.insert_one(like_data.dict())
     if like:
+        logger.exception(f"Like to film {like_data.film_id} created")
         return Response(content=like, status_code=status.HTTP_201_CREATED)
     else:
+        logger.exception(f"Like to film {like_data.film_id} not created")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='like not created')
 
 
@@ -54,9 +56,12 @@ async def remove_like_film(like_id: str,
     try:
         result = await like_service.delete_one(like_id)
         if result:
+            logger.exception(f"Like {like_id} deleted")
             return Response(status_code=status.HTTP_204_NO_CONTENT)
+        logger.exception(f"Like {like_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='like not deleted')
-    except:
+    except Exception:
+        logger.exception(f"Like {like_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='like not deleted')
 
 
@@ -68,8 +73,10 @@ async def change_rating_film(like_id: str,
                              like_service: LikeService = Depends(get_like_service)):
     try:
         like = await like_service.patch_one(like_id, like_data.dict())
+        logger.exception(f"Like {like_id} updated")
         return Response(content=like, status_code=status.HTTP_200_OK)
-    except:
+    except Exception:
+        logger.exception(f"Like {like_id} not updated")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="like rating not update")
 
 
@@ -80,6 +87,8 @@ async def get_like_by_id(like_id: str,
                          like_service: LikeService = Depends(get_like_service)):
     like = await like_service.find_one(like_id)
     if like:
+        logger.exception(f"Like {like_id} found")
         return Response(content=like, status_code=status.HTTP_200_OK)
     else:
+        logger.exception(f"Like {like_id} not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='like not found')

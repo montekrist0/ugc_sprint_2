@@ -54,6 +54,7 @@ class ReviewService(BaseService):
         review['ratings'] = rating_before_del
         result = await self.patch_one(review['id'], review)
         return result
+
     @staticmethod
     async def del_rating(ratings: list, rating_review_user_id: str):
         for index_, rating in enumerate(ratings):
