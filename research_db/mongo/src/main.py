@@ -1,68 +1,28 @@
-import datetime
-from abc import ABC, abstractmethod
+import random
+import time
 
-import pymongo.database
-from pymongo import MongoClient
-from pymongo.results import InsertOneResult, InsertManyResult
-from pymongo.errors import PyMongoError
-from pymongo.database import Database, Collection
+from pymongo.database import Collection
+from pymongo.errors import CollectionInvalid
+from research_db.mongo.src.db_manager import MongoDBManager
+from tqdm import tqdm
 
-connection_string = "mongodb://root:example@localhost:27017/"
-
-
-class DBManager(ABC):
-
-    @abstractmethod
-    def create_db(self, db_name: str):
-        pass
-
-    @abstractmethod
-    def create_collection(self, *params):
-        pass
-
-    @abstractmethod
-    def insert_one(self, collection_name, db_name, doc):
-        pass
-
-    @abstractmethod
-    def insert_many(self, collection_name, db_name):
-        pass
+import settings
 
 
-class MongoDBManager(DBManager):
-
-    def __init__(self, con_string: str) -> None:
-        self.client = MongoClient(con_string)
-
-    def create_db(self, db_name: str) -> None | Database:
-        return self.client[db_name]
-
-    def create_collection(self, collection_name: str, db_name: str) -> None | Collection:
-        return self.client[db_name][collection_name]
-
-    def insert_one(self, collection_name: str, db_name: str, doc: dict) -> None | InsertOneResult:
-        try:
-            result = self.client[db_name][collection_name].insert_one(doc)
-            return result
-
-        except PyMongoError:
-            return None
-
-    def insert_many(self, collection_name, db_name):
-        pass
+def test_get_avg_rating_of_films(collection: Collection, count: int = 100):
+    pass
 
 
-# client = MongoClient()
+def main():
+    mongodb_manager = MongoDBManager(settings.CONNECTION_STRING, settings.DB_NAME)
 
-# db = client.test_database
-# collection = db.test_collection
+    try:
+        like_collection = mongodb_manager.create_collection(settings.Collections.likes)
+    except CollectionInvalid:
+        like_collection = mongodb_manager.db.get_collection(settings.Collections.likes)
 
-# post = {
-#     "author": "Mike",
-#     "text": "My first blog post!",
-#     "tags": ["mongodb", "python", "pymongo"],
-#     "date": datetime.datetime.utcnow(),
-# }
+    test_get_avg_rating_of_films(like_collection)
 
-# posts = db.posts
-# post_id = posts.insert_one(post).inserted_id
+
+if __name__ == "__main__":
+    main()
