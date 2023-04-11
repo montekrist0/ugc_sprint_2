@@ -1,6 +1,6 @@
 import typing
 from abc import ABC
-import bson
+import bson  # type: ignore
 
 from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 
