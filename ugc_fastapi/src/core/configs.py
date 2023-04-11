@@ -21,8 +21,8 @@ settings = Settings()
 
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter(
-    '{"timestamp": "%(asctime)s", "severity": "%(levelname)s", "module": "%(module)s", "message": %(message)s}'
-)
+    '{"timestamp": "%(asctime)s", "severity": "%(levelname)s", "module": "%(module)s", "message": "%(message)s"}')
 file_handler = logging.FileHandler('log/logfile.json')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+logger.setLevel('INFO')

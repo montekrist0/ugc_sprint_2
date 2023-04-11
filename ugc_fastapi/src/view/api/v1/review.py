@@ -35,14 +35,14 @@ async def add_review_film(review_data: ReviewUgcModelPost,
     if user_films_like_id:
         review_data.liked_films_id = user_films_like_id
     else:
-        logger.exception(f"User {review_data.user_id} like not found")
+        logger.info(f"User {review_data.user_id} like not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='user like not found')
     review = await review_service.insert_one(review_data.dict())
     if review:
-        logger.exception(f"User {review_data.user_id} review created")
+        logger.info(f"User {review_data.user_id} review created")
         return Response(content=review, status_code=status.HTTP_201_CREATED)
     else:
-        logger.exception(f"User {review_data.user_id} review not created")
+        logger.info(f"User {review_data.user_id} review not created")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not created')
 
 
@@ -57,10 +57,10 @@ async def get_reviews_films(film_id: str,
                                         pagination_parameters.page_number,
                                         pagination_parameters.page_size)
     if reviews:
-        logger.exception(f"Reviews for film {film_id}")
+        logger.info(f"Reviews for film {film_id}")
         return Response(content=reviews, status_code=status.HTTP_200_OK)
     else:
-        logger.exception(f"Reviews for film {film_id} not found")
+        logger.info(f"Reviews for film {film_id} not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='reviews not found')
 
 
@@ -69,10 +69,10 @@ async def remove_review_film(review_id: str, review_service: ReviewService = Dep
     try:
         result = await review_service.delete_one(review_id)
         if result:
-            logger.exception(f"Review {review_id} deleted")
+            logger.info(f"Review {review_id} deleted")
             return Response(status_code=status.HTTP_204_NO_CONTENT)
     except Exception:
-        logger.exception(f"Review {review_id} not deleted")
+        logger.info(f"Review {review_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not deleted')
 
 
@@ -85,13 +85,13 @@ async def add_rating_review(review_id: str,
         review = orjson.loads(review)
         result = await review_service.add_rating_review(review, rating_review.dict())
         if result:
-            logger.exception(f"Rating for review {review_id} created")
+            logger.info(f"Rating for review {review_id} created")
             return Response(content=result, status_code=status.HTTP_201_CREATED)
         else:
-            logger.exception(f"Rating for review {review_id} not created")
+            logger.info(f"Rating for review {review_id} not created")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating for review not created')
     else:
-        logger.exception(f"Review {review_id} not found")
+        logger.info(f"Review {review_id} not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not found')
 
 
@@ -105,13 +105,13 @@ async def remove_rating_review_film(review_id: str,
             review = orjson.loads(review)
             result = await review_service.delete_rating_review(review, rating_review_user_id.user_id)
             if result:
-                logger.exception(f"Review {review_id} rating deleted")
+                logger.info(f"Review {review_id} rating deleted")
                 return Response(content=result, status_code=status.HTTP_200_OK)
-            logger.exception(f"Review {review_id} rating not found")
+            logger.info(f"Review {review_id} rating not found")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not found')
         else:
-            logger.exception(f"Review {review_id} rating not found")
+            logger.info(f"Review {review_id} rating not found")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not found')
     except Exception:
-        logger.exception(f"Review {review_id} rating not deleted")
+        logger.info(f"Review {review_id} rating not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not deleted')

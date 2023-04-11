@@ -28,10 +28,10 @@ async def get_bookmarks_films(user_id: UUID,
                                              pagination_parameters.page_number,
                                              pagination_parameters.page_size)
     if bookmarks:
-        logger.exception(f"Bookmarks for user {user_id} found")
+        logger.info(f"Bookmarks for user {user_id} found")
         return Response(content=bookmarks, status_code=status.HTTP_200_OK)
     else:
-        logger.exception(f"Bookmarks for user {user_id} not found")
+        logger.info(f"Bookmarks for user {user_id} not found")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmarks not found')
 
 
@@ -42,10 +42,10 @@ async def add_bookmarks_films(bookmark_data: BookMarkUgcModel,
                               bookmarks_service: BookMarksService = Depends(get_bookmarks_service)):
     bookmark = await bookmarks_service.insert_one(bookmark_data.dict())
     if bookmark:
-        logger.exception(f"Bookmark by user {bookmark_data.film_id} to film {bookmark_data.film_id} created")
+        logger.info(f"Bookmark by user {bookmark_data.film_id} to film {bookmark_data.film_id} created")
         return Response(content=bookmark, status_code=status.HTTP_201_CREATED)
     else:
-        logger.exception(f"Bookmark by user {bookmark_data.film_id} to film {bookmark_data.film_id} not created")
+        logger.info(f"Bookmark by user {bookmark_data.film_id} to film {bookmark_data.film_id} not created")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmark not created')
 
 
@@ -55,10 +55,10 @@ async def remove_like_film(bookmark_id: str,
     try:
         result = await bookmarks_service.delete_one(bookmark_id)
         if result:
-            logger.exception(f"Bookmark {bookmark_id} deleted")
+            logger.info(f"Bookmark {bookmark_id} deleted")
             return Response(status_code=status.HTTP_204_NO_CONTENT)
-        logger.exception(f"Bookmark {bookmark_id} not deleted")
+        logger.info(f"Bookmark {bookmark_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmark not deleted')
     except Exception:
-        logger.exception(f"Bookmark {bookmark_id} not deleted")
+        logger.info(f"Bookmark {bookmark_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmark not deleted')
