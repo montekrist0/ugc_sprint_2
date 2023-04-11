@@ -63,7 +63,7 @@ class ReviewService(BaseService):
         return ratings
 
 
-@lru_cache
+@lru_cache(maxsize=None)
 def get_review_service():
     client = get_mongo_client()
     db = client[settings.mongo_db]

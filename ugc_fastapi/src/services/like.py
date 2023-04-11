@@ -9,7 +9,7 @@ class LikeService(BaseService):
     pass
 
 
-@lru_cache
+@lru_cache(maxsize=None)
 def get_like_service():
     client = get_mongo_client()
     db = client[settings.mongo_db]

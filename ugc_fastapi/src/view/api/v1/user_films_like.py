@@ -1,3 +1,4 @@
+import typing
 from uuid import UUID
 
 from fastapi import (APIRouter,
@@ -19,7 +20,7 @@ router = APIRouter()
 
 
 @router.get('/films/{film_id}',
-            response_model=list[LikeUgcModelResponse],
+            response_model=typing.List[LikeUgcModelResponse],
             summary='Список лайков фильма')
 async def get_likes_list_for_film(film_id: str,
                                   pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
