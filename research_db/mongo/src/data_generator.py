@@ -3,6 +3,7 @@ from datetime import datetime
 
 import tqdm
 from faker import Faker
+
 from research_db.mongo.src.settings import FILM_COUNT
 
 
@@ -11,7 +12,7 @@ class DataGenerator:
         self.faker = Faker()
 
     def generate_like_doc(self, user_id: str = None, film_id: str = None, rating: int = None) -> dict:
-        film_id = film_id or f"film_{random.randint(0, FILM_COUNT)}"
+        film_id = film_id or self.faker.uuid4()
         user_id = user_id or self.faker.uuid4()
         rating = rating or random.randint(0, 10)
 
@@ -23,7 +24,7 @@ class DataGenerator:
             "film_id": f"film_{f_id}",
             "user_id": self.faker.uuid4(),
             "text": self.faker.sentence(),
-            "created": datetime.now()
+            "created": datetime.now(),
         }
 
     def gen_ids(self, count: int) -> list:

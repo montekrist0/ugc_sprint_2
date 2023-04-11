@@ -1,16 +1,22 @@
 import pickle
 import random
 
+import settings
+from data_generator import DataGenerator
+from db_manager import MongoDBManager
 from pymongo.database import Collection
 from pymongo.errors import CollectionInvalid
 from tqdm import tqdm
 
-import settings
-from data_generator import DataGenerator
-from db_manager import MongoDBManager
-
 
 def get_ids(filename: str, count: int):
+    """
+    Функция достает из файла список id. Если файла нет - создает список и сохраняет в файл.
+
+    :param filename: Имя файла, в который будет сохранен список id фильмов, пользователей или прочих объектов
+    :param count: количество id для генерации
+    :return:
+    """
     dg = DataGenerator()
     ids = []
 
@@ -32,6 +38,12 @@ film_ids = get_ids(settings.film_ids_filename, settings.FILM_COUNT)
 
 
 def get_random_film_ids(film_list: list, film_count):
+    """
+
+    :param film_list: список id фильмов
+    :param film_count: количество рандомных id фильмов, которые требуется вернуть
+    :return:
+    """
     start_index = random.randint(0, settings.FILM_COUNT - film_count - 1)
     for i in range(start_index, start_index + film_count):
         yield film_list[i]
@@ -39,9 +51,10 @@ def get_random_film_ids(film_list: list, film_count):
 
 def generate_likes(collection: Collection, u_ids: list, f_ids: list):
     """
+    Функция создает рандомные документы в переданной коллекции
 
-    :param f_ids:
-    :param collection:
+    :param f_ids: список id фильмов
+    :param collection: коллекция в MongoDB
     :param u_ids: список id пользователей
     :return:
     """

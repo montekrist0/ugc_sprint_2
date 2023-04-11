@@ -1,5 +1,6 @@
 from enum import Enum
 
+RESULTS_FILENAME = "results.csv"
 CONNECTION_STRING = "mongodb://root:example@localhost:27017/"
 FILM_COUNT = 100000
 USERS_COUNT = 1000000

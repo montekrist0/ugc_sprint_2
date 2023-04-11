@@ -163,5 +163,6 @@ cython_debug/
 dev_data_db/
 .DS_Store
 *.csv
+!results.csv
 useful_commands.md
 kafka/data
