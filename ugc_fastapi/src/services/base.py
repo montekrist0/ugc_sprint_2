@@ -1,7 +1,7 @@
 from abc import ABC
 from bson.objectid import ObjectId
 
-from motor.motor_asyncio import AsyncIOMotorCollection
+from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 
 import orjson
 

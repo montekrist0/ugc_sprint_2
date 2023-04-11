@@ -1,5 +1,5 @@
-import motor.motor_asyncio
-from motor.motor_asyncio import AsyncIOMotorCollection
+import motor.motor_asyncio  # type: ignore
+from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 
 from core.configs import settings
 

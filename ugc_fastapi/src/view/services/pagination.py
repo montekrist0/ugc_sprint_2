@@ -1,6 +1,6 @@
 from fastapi import Query
 
-from view.models.pagination import PaginataionParameters
+from view.models.pagination import PaginationParameters
 
 
 async def get_pagination_parameters(
@@ -11,4 +11,4 @@ async def get_pagination_parameters(
             default=0, alias="page[number]", title="Номер страницы", ge=0
         ),
 ):
-    return PaginataionParameters(page_size=page_size, page_number=page_number)
+    return PaginationParameters(page_size=page_size, page_number=page_number)

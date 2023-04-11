@@ -1,6 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from core.configs import settings
 
 
-class PaginataionParameters(BaseModel):
-    page_size: int | None
-    page_number: int | None
+class PaginationParameters(BaseModel):
+    page_size: int = Field(default=settings.default_page_size)
+    page_number: int = Field(default=settings.default_page_number)
+

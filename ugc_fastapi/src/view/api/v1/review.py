@@ -12,7 +12,7 @@ from view.models.review import (ReviewUgcModelResponse,
                                 RatingReview,
                                 RatingReviewDelete)
 
-from view.models.pagination import PaginataionParameters
+from view.models.pagination import PaginationParameters
 from view.services.pagination import get_pagination_parameters
 from services.review import ReviewService, get_review_service
 from services.like import LikeService, get_like_service
@@ -50,7 +50,7 @@ async def add_review_film(review_data: ReviewUgcModelPost,
             response_model=list[ReviewUgcModelResponse],
             summary='Список ревью для фильма')
 async def get_reviews_films(film_id: str,
-                            pagination_parameters: PaginataionParameters = Depends(get_pagination_parameters),
+                            pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
                             review_service: ReviewService = Depends(get_review_service)):
     filter_ = {'film_id': film_id}
     reviews = await review_service.find(filter_,

@@ -10,7 +10,7 @@ from core.configs import logger
 from view.models.user_films_like import (LikeUgcModelResponse,
                                          LikeUgcModel,
                                          LikeUgcModelPatch)
-from view.models.pagination import PaginataionParameters
+from view.models.pagination import PaginationParameters
 from view.services.pagination import get_pagination_parameters
 from services.like import (get_like_service,
                            LikeService)
@@ -22,7 +22,7 @@ router = APIRouter()
             response_model=list[LikeUgcModelResponse],
             summary='Список лайков фильма')
 async def get_likes_list_for_film(film_id: str,
-                                  pagination_parameters: PaginataionParameters = Depends(get_pagination_parameters),
+                                  pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
                                   like_service: LikeService = Depends(get_like_service)):
     filter_ = {'film_id': film_id}
     likes = await like_service.find(filter_,

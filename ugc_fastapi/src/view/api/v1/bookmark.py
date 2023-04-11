@@ -9,7 +9,7 @@ from fastapi import (APIRouter,
 from core.configs import logger
 from view.models.bookmark import (BookMarkUgcModelResponse,
                                   BookMarkUgcModel)
-from view.models.pagination import PaginataionParameters
+from view.models.pagination import PaginationParameters
 from view.services.pagination import get_pagination_parameters
 from services.bookmarks import (get_bookmarks_service,
                                 BookMarksService)
@@ -21,7 +21,7 @@ router = APIRouter()
             response_model=list[BookMarkUgcModelResponse],
             summary='Список закладок с фильмами для юзера')
 async def get_bookmarks_films(user_id: UUID,
-                              pagination_parameters: PaginataionParameters = Depends(get_pagination_parameters),
+                              pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
                               bookmarks_service: BookMarksService = Depends(get_bookmarks_service)):
     filter_ = {'user_id': str(user_id)}
     bookmarks = await bookmarks_service.find(filter_,

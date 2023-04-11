@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     mongo_collection_bookmarks: str = 'bookmarks_films'
     mongo_collection_reviewed: str = 'reviewed_films'
 
+    default_page_size: int = Field(env='DEFAULT_PAGE_SIZE', default=50)
+    default_page_number: int = Field(env='DEFAULT_PAGE_NUMBER', default=0)
+
 
 settings = Settings()
 
