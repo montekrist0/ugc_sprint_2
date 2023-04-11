@@ -1,4 +1,6 @@
-import orjson
+import typing
+
+import orjson  # type: ignore
 
 from fastapi import (APIRouter,
                      Depends,
@@ -47,7 +49,7 @@ async def add_review_film(review_data: ReviewUgcModelPost,
 
 
 @router.get('/films/{films_id}',
-            response_model=list[ReviewUgcModelResponse],
+            response_model=typing.List[ReviewUgcModelResponse],
             summary='Список ревью для фильма')
 async def get_reviews_films(film_id: str,
                             pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),

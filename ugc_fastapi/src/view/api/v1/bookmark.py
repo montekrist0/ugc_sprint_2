@@ -1,3 +1,4 @@
+import typing
 from uuid import UUID
 
 from fastapi import (APIRouter,
@@ -18,7 +19,7 @@ router = APIRouter()
 
 
 @router.get('/users/{user_id}',
-            response_model=list[BookMarkUgcModelResponse],
+            response_model=typing.List[BookMarkUgcModelResponse],
             summary='Список закладок с фильмами для юзера')
 async def get_bookmarks_films(user_id: UUID,
                               pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),

@@ -1,4 +1,4 @@
-import orjson
+import orjson  # type: ignore
 from functools import lru_cache
 
 from services.base import BaseService

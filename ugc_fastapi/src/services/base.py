@@ -1,9 +1,10 @@
+import typing
 from abc import ABC
-from bson.objectid import ObjectId
+import bson
 
 from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 
-import orjson
+import orjson  # type: ignore
 
 
 class BaseService(ABC):
@@ -26,19 +27,19 @@ class BaseService(ABC):
         return docs
 
     async def find_one(self, id_: str):
-        doc = await self.collection.find_one({"_id": ObjectId(id_)})
+        doc = await self.collection.find_one({"_id": bson.ObjectId(id_)})
         if doc:
             doc = await self._transform_dict(doc)
         return doc
 
     async def delete_one(self, id_: str):
-        filter_ = {'_id': ObjectId(id_)}
+        filter_ = {'_id': bson.ObjectId(id_)}
         result = await self.collection.delete_one(filter_)
         return result.deleted_count
 
     async def patch_one(self, id_: str, data: dict):
-        await self.collection.update_one({"_id": ObjectId(id_)}, {'$set': data})
-        patch_doc = await self.collection.find_one({"_id": ObjectId(id_)})
+        await self.collection.update_one({"_id": bson.ObjectId(id_)}, {'$set': data})
+        patch_doc = await self.collection.find_one({"_id": bson.ObjectId(id_)})
         patch_doc = await self._transform_dict(patch_doc)
         return patch_doc
 
@@ -46,7 +47,7 @@ class BaseService(ABC):
     async def _obj_to_json(my_list_dist):
         return orjson.dumps(my_list_dist)
 
-    async def _transform_list_dict(self, my_list_dict: list[dict]):
+    async def _transform_list_dict(self, my_list_dict: typing.List[dict]):
         for my_dict in my_list_dict:
             my_dict['id'] = str(my_dict.pop('_id'))
         return await self._obj_to_json(my_list_dict)
