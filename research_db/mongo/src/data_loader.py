@@ -69,6 +69,9 @@ def main():
 
     generate_likes(like_collection, user_ids, film_ids)
 
+    like_collection.create_index([("film_id", 1)])
+    like_collection.create_index([("user_id", 1)])
+
 
 if __name__ == "__main__":
     main()
