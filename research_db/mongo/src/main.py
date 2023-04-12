@@ -2,13 +2,14 @@ import random
 import time
 
 import pandas as pd
-import settings
-from data_loader import film_ids, user_ids
-from data_generator import DataGenerator
 from pymongo.database import Collection
 from pymongo.errors import CollectionInvalid
 
-from research_db.mongo.src.db_manager import MongoDBManager
+
+from src.data_loader import film_ids, user_ids
+from src.data_generator import DataGenerator
+import src.settings as settings
+from src.db_manager import MongoDBManager
 
 
 def test_get_avg_rating_of_films(collection: Collection, count: int = 100):

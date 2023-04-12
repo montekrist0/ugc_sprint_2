@@ -1,12 +1,13 @@
 import pickle
 import random
 
-import settings
-from data_generator import DataGenerator
-from db_manager import MongoDBManager
 from pymongo.database import Collection
 from pymongo.errors import CollectionInvalid
 from tqdm import tqdm
+
+from src.data_generator import DataGenerator
+from src.db_manager import MongoDBManager
+import src.settings as settings
 
 
 def get_ids(filename: str, count: int):
