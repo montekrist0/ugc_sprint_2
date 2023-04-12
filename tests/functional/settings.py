@@ -10,9 +10,9 @@ class BaseConfig(BaseSettings):
     mongo_db: str = Field("ugc2_movies", env="MONGO_DB")
     service_url: str = Field("http://localhost:8001", env="UGC_SERVICE_URL")
 
-    like_collection: str = Field("shard", env="LIKE_COL")
-    reviews_collection: str = Field("view", env="BOOKMARK_COL")
-    click_table: str = Field("view", env="REVIEWS_COL")
+    like_collection: str = Field("liked_films", env="LIKE_COL")
+    bookmark_collection: str = Field("bookmarks_films", env="BOOKMARK_COL")
+    review_collection: str = Field("reviewed_films", env="REVIEWS_COL")
 
     class Config:
         env_file = os.path.join(Path(__file__).parent.absolute(), ".env")
@@ -20,4 +20,3 @@ class BaseConfig(BaseSettings):
 
 
 settings = BaseConfig()
-

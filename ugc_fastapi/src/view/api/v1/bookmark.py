@@ -21,7 +21,7 @@ router = APIRouter()
 @router.get('/users/{user_id}',
             response_model=typing.List[BookMarkUgcModelResponse],
             summary='Список закладок с фильмами для юзера')
-async def get_bookmarks_films(user_id: UUID,
+async def get_bookmarks_films(user_id: str,
                               pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
                               bookmarks_service: BookMarksService = Depends(get_bookmarks_service)):
     filter_ = {'user_id': str(user_id)}
