@@ -4,7 +4,7 @@ from datetime import datetime
 import tqdm
 from faker import Faker
 
-from src.settings import FILM_COUNT
+from src.settings import FILM_COUNT, USERS_COUNT
 
 
 class DataGenerator:
@@ -28,7 +28,7 @@ class DataGenerator:
         }
 
     def gen_ids(self, count: int) -> list:
-        if count > 1_000_000:
-            count = 1_000_000
+        if count > USERS_COUNT:
+            count = USERS_COUNT
 
         return [self.faker.uuid4() for _ in tqdm.tqdm(range(count))]
