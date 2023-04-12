@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import uvicorn
 
+from db.clients import mongo
+from view.api.v1 import user_films_like, bookmark, review
 
 app = FastAPI(
     title="API для получения UGC",
@@ -11,17 +13,19 @@ app = FastAPI(
 )
 
 
-# app.include_router(, prefix="/api/v1")
+app.include_router(user_films_like.router, prefix="/api/v1/likes", tags=["Likes"])
+app.include_router(bookmark.router, prefix="/api/v1/bookmarks", tags=["Bookmarks"])
+app.include_router(review.router, prefix="/api/v1/reviews", tags=["Reviews"])
 
 
 @app.on_event("startup")
-async def startup():
-    pass
+def startup():
+    mongo.client = mongo.create_mongo_client()
 
 
 @app.on_event("shutdown")
-async def shutdown():
-    pass
+def shutdown():
+    mongo.client.close()
 
 
 if __name__ == "__main__":
