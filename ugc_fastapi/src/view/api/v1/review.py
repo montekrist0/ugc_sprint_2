@@ -48,7 +48,7 @@ async def add_review_film(review_data: ReviewUgcModelPost,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not created')
 
 
-@router.get('/films/{films_id}',
+@router.get('/films/{film_id}',
             response_model=typing.List[ReviewUgcModelResponse],
             summary='Список ревью для фильма')
 async def get_reviews_films(film_id: str,

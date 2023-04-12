@@ -66,7 +66,7 @@ services:
       - movies_network
 
   ugc2_logstash:
-    image: docker.elastic.co/logstash/logstash:7.17.6
+    image: logstash:8.5.3
     environment:
       XPACK_MONITORING_ENABLED: "false"
       ES_HOST: "ugc2-elasticsearch:9200"
@@ -79,18 +79,18 @@ services:
       - movies_network
 
   ugc2-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    image: elasticsearch:8.5.3
     environment:
       discovery.type: single-node
     ports:
-      - 9200:9200
+      - "9200:9200"
     volumes:
       - ./tmp/esdata:/tmp/elasticsearch/data
     networks:
       - movies_network
 
   ugc2_kibana:
-    image: docker.elastic.co/kibana/kibana:7.17.6
+    image: kibana:8.5.3
     environment:
       ELASTICSEARCH_HOSTS: "http://ugc2-elasticsearch:9200"
     ports:
@@ -101,7 +101,7 @@ services:
       - movies_network
 
   ugc2_filebeat:
-    image: docker.elastic.co/beats/filebeat:7.17.6
+    image: elastic/filebeat:8.5.3
     volumes:
       - ./tmp/logs/nginx:/var/log/nginx:ro
       - ./tmp/logs/app:/var/log/app:ro

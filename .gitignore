@@ -166,3 +166,4 @@ dev_data_db/
 !results.csv
 useful_commands.md
 kafka/data
+tmp/
