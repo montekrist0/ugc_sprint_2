@@ -1,28 +1,44 @@
 version: '3.8'
 
 services:
+  ugc2_mongo_db:
+    image: mongo:4.4.20-rc0-focal
+    container_name: mongodb_test
+    restart: always
+    expose:
+      - "27017"
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+    volumes:
+      - ../db/mongo:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.runCommand('ping').ok" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "27017:27017"
+    networks:
+      - movies_network
 
-  ...
-
-  fastapi:
+  ugc2_fastapi:
     build:
       context: ../ugc_fastapi
-    image: ugcfastapi-image
+    image: ugc2_fastapi-image
     env_file:
       - ./.env
-    depends_on:
-      kafka-zookeeper:
-        condition: service_healthy
-
-    container_name: ugcfastapi_container
+    container_name: ugc2_fastapi_test
     restart: unless-stopped
-    ports:
-      - "8001:8001"
+    depends_on:
+      ugc2_mongo_db:
+        condition: service_healthy
+    networks:
+      - movies_network
 
   tests:
-    image: ugcfastapi-image
+    image: ugc2_fastapi-image
     depends_on:
-      - fastapi
+      - ugc2_fastapi
     container_name: tests_container
     env_file:
       - ./.env
@@ -31,5 +47,5 @@ services:
       - ./functional/.env.docker:/tests/functional/.env
     entrypoint: >
       sh -c "pip install -r /tests/requirements.txt
-      && python3 /tests/functional/utils/wait_for_mongo.py
       && python3 -m pytest /tests/functional/src/ -vv"
+#      && python3 /tests/functional/utils/wait_for_mongo.py
