@@ -24,7 +24,7 @@ router = APIRouter()
 async def get_bookmarks_films(user_id: str,
                               pagination_parameters: PaginationParameters = Depends(get_pagination_parameters),
                               bookmarks_service: BookMarksService = Depends(get_bookmarks_service)):
-    filter_ = {'user_id': str(user_id)}
+    filter_ = {'user_id': user_id}
     bookmarks = await bookmarks_service.find(filter_,
                                              pagination_parameters.page_number,
                                              pagination_parameters.page_size)
