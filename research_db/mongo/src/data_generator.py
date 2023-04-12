@@ -4,7 +4,7 @@ from datetime import datetime
 import tqdm
 from faker import Faker
 
-from research_db.mongo.src.settings import FILM_COUNT
+from settings import FILM_COUNT
 
 
 class DataGenerator:
