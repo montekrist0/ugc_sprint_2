@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     mongo_collection_like: str = 'liked_films'
     mongo_collection_bookmarks: str = 'bookmarks_films'
     mongo_collection_reviewed: str = 'reviewed_films'
+    sentry_dsn: str = "https://df496bbaed8a404fba24854a4b782d70@o4505008417144832.ingest.sentry.io/4505008421535744"
+    traces_sample_rate: float = 1.0
 
     default_page_size: int = Field(default=50)
     default_page_number: int = Field(default=0)

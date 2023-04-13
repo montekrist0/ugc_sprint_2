@@ -1,16 +1,23 @@
+import sentry_sdk
 import uvicorn
 from fastapi import FastAPI
 
+from core.configs import settings
 from db.clients import mongo
 from view.api.v1 import (bookmark,
                          review,
                          user_films_like)
 
+sentry_sdk.init(
+    dsn=settings.sentry_dsn,
+    traces_sample_rate=settings.traces_sample_rate,
+)
+
 app = FastAPI(
     title="API для получения UGC",
     docs_url="/api/openapi",
     openapi_url="/api/openapi.json",
-    description="...",
+    description="API для получения UGC",
     version="1.0.0",
 )
 
