@@ -1,5 +1,4 @@
 import typing
-from uuid import UUID
 
 from fastapi import (APIRouter,
                      Depends,
@@ -8,13 +7,13 @@ from fastapi import (APIRouter,
                      status)
 
 from core.configs import logger
-from view.models.user_films_like import (LikeUgcModelResponse,
-                                         LikeUgcModel,
-                                         LikeUgcModelPatch)
+from services.like import (LikeService,
+                           get_like_service)
 from view.models.pagination import PaginationParameters
+from view.models.user_films_like import (LikeUgcModel,
+                                         LikeUgcModelPatch,
+                                         LikeUgcModelResponse)
 from view.services.pagination import get_pagination_parameters
-from services.like import (get_like_service,
-                           LikeService)
 
 router = APIRouter()
 

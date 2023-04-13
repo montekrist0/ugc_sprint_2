@@ -1,9 +1,10 @@
-import orjson  # type: ignore
 from functools import lru_cache
 
-from services.base import BaseService
-from db.clients.mongo import get_mongo_client
+import orjson  # type: ignore
+
 from core.configs import settings
+from db.clients.mongo import get_mongo_client
+from services.base import BaseService
 from services.like import LikeService
 
 

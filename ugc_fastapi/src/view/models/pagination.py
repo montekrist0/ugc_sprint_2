@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import (BaseModel,
+                      Field)
 
 from core.configs import settings
 

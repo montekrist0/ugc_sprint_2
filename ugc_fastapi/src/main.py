@@ -1,8 +1,10 @@
-from fastapi import FastAPI
 import uvicorn
+from fastapi import FastAPI
 
 from db.clients import mongo
-from view.api.v1 import user_films_like, bookmark, review
+from view.api.v1 import (bookmark,
+                         review,
+                         user_films_like)
 
 app = FastAPI(
     title="API для получения UGC",
