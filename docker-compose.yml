@@ -37,17 +37,22 @@ services:
     build:
       context: ./ugc_fastapi
     image: ugc2_fastapi-image
-    volumes:
-      - ./tmp/logs/app:/home/app/fastapi/log
     env_file:
       - ./.env
     container_name: ugc2_fastapi
     restart: unless-stopped
     depends_on:
+      ugc2_logstash:
+        condition: service_healthy
       ugc2_mongo_db:
         condition: service_healthy
     networks:
       - movies_network
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: "ugc_likes_app"
 
   ugc2_nginx:
     image: nginx:1.22.1
@@ -72,16 +77,25 @@ services:
       ES_HOST: "ugc2-elasticsearch:9200"
     ports:
       - "5044:5044/udp"
+      - "5045:5045/udp"
     volumes:
       - ./elk/logstash/logstash.conf:/config/logstash.conf:ro
     command: logstash -f /config/logstash.conf
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:9600/_node/stats" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - movies_network
 
   ugc2-elasticsearch:
     image: elasticsearch:8.5.3
     environment:
-      discovery.type: single-node
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+      - USE_SSL=false
     ports:
       - "9200:9200"
     volumes:
@@ -104,7 +118,6 @@ services:
     image: elastic/filebeat:8.5.3
     volumes:
       - ./tmp/logs/nginx:/var/log/nginx:ro
-      - ./tmp/logs/app:/var/log/app:ro
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
     depends_on:
       - ugc2_fastapi

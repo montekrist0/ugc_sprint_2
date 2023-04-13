@@ -1,10 +1,9 @@
 import os
+import sys
 import logging
 from pydantic import BaseSettings, Field
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-path_log_file = os.path.join(BASE_DIR, 'log/logfile.json')
 
 
 class Settings(BaseSettings):
@@ -21,10 +20,6 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+log_format = '{"timestamp": "%(asctime)s", "severity": "%(levelname)s", "module": "%(module)s", "message": "%(message)s"}'
+logging.basicConfig(format=log_format, level=logging.INFO)
 logger = logging.getLogger(__name__)
-formatter = logging.Formatter(
-    '{"timestamp": "%(asctime)s", "severity": "%(levelname)s", "module": "%(module)s", "message": "%(message)s"}')
-file_handler = logging.FileHandler('log/logfile.json')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-logger.setLevel('INFO')
