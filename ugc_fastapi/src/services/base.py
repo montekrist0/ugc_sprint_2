@@ -43,17 +43,17 @@ class BaseService:
         return patch_doc
 
     @staticmethod
-    def _obj_to_json(my_list_dist):
-        return orjson.dumps(my_list_dist)
+    def _obj_to_json(any_list_dist):
+        return orjson.dumps(any_list_dist)
 
-    def _transform_list_dict(self, my_list_dict: typing.List[dict]):
-        for my_dict in my_list_dict:
+    def _transform_list_dict(self, any_list_dist_with_id_bottom_underline: typing.List[dict]):
+        for my_dict in any_list_dist_with_id_bottom_underline:
             my_dict['id'] = str(my_dict.pop('_id'))
-        return self._obj_to_json(my_list_dict)
+        return self._obj_to_json(any_list_dist_with_id_bottom_underline)
 
-    def _transform_dict(self, my_dict: dict):
-        my_dict['id'] = str(my_dict.pop('_id'))
-        return self._obj_to_json(my_dict)
+    def _transform_dict(self, my_dict_with_bottom_underline: dict):
+        my_dict_with_bottom_underline['id'] = str(my_dict_with_bottom_underline.pop('_id'))
+        return self._obj_to_json(my_dict_with_bottom_underline)
 
     @staticmethod
     def _create_skip(page_number: int, page_size: int):
