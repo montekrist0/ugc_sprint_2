@@ -1,6 +1,6 @@
 filebeat.inputs:
 - type: log
-  tags: [ 'ugc2_nginx' ]
+  tags: [ 'ugc_likes_nginx' ]
   enabled: true
   paths:
     - /var/log/nginx/*
@@ -11,7 +11,7 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/app/*
-  tags: [ 'ugc2_app' ]
+  tags: [ 'ugc_likes_app' ]
   json:
     keys_under_root: true
     add_error_key: true
