@@ -1,5 +1,4 @@
 import typing
-from abc import ABC
 import bson  # type: ignore
 
 from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
@@ -7,7 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 import orjson  # type: ignore
 
 
-class BaseService(ABC):
+class BaseService:
 
     def __init__(self, collection: AsyncIOMotorCollection):
         self.collection = collection
