@@ -71,13 +71,14 @@ async def get_reviews_films(film_id: str,
 async def remove_review_film(review_id: str, review_service: ReviewService = Depends(get_review_service)):
     try:
         result = await review_service.delete_one(review_id)
-        if result:
-            logger.info(f"Review {review_id} deleted")
-            return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     except Exception:
         logger.info(f"Review {review_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not deleted')
+
+    if result:
+        logger.info(f"Review {review_id} deleted")
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post('/{review_id}/rating', summary='Добавление/изменение рейтинга ревью')
@@ -95,9 +96,8 @@ async def add_rating_review(review_id: str,
             logger.info(f"Rating for review {review_id} created")
             return Response(content=result, status_code=status.HTTP_201_CREATED)
 
-        else:
-            logger.info(f"Rating for review {review_id} not created")
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating for review not created')
+        logger.info(f"Rating for review {review_id} not created")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating for review not created')
 
     logger.info(f"Review {review_id} not found")
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='review not found')
@@ -122,9 +122,8 @@ async def remove_rating_review_film(review_id: str,
             logger.info(f"Review {review_id} rating not found")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not found')
 
-        else:
-            logger.info(f"Review {review_id} rating not found")
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not found')
+        logger.info(f"Review {review_id} rating not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='rating review not found')
 
     except Exception:
         logger.info(f"Review {review_id} rating not deleted")

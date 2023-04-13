@@ -50,13 +50,14 @@ async def remove_like_film(bookmark_id: str,
                            bookmarks_service: BookMarksService = Depends(get_bookmarks_service)):
     try:
         result = await bookmarks_service.delete_one(bookmark_id)
-        if result:
-            logger.info(f"Bookmark {bookmark_id} deleted")
-            return Response(status_code=status.HTTP_204_NO_CONTENT)
-
-        logger.info(f"Bookmark {bookmark_id} not deleted")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmark not deleted')
 
     except Exception:
         logger.info(f"Bookmark {bookmark_id} not deleted")
+        result = None
+
+    if not result:
+        logger.info(f"Bookmark {bookmark_id} not deleted")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='bookmark not deleted')
+
+    logger.info(f"Bookmark {bookmark_id} deleted")
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
