@@ -14,7 +14,7 @@ class BaseService:
         result = await self.collection.insert_one(data)
         inserted_id = result.inserted_id
         inserted_doc = await self.collection.find_one({"_id": inserted_id})
-        inserted_doc = await self._transform_dict(inserted_doc)
+        inserted_doc = self._transform_dict(inserted_doc)
         return inserted_doc
 
     async def find(self, filter_: dict, page_number: int, page_size: int):
