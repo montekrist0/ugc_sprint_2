@@ -19,10 +19,10 @@ class BaseService:
         return inserted_doc
 
     async def find(self, filter_: dict, page_number: int, page_size: int):
-        skip = await self._create_skip(page_number, page_size)
+        skip = self._create_skip(page_number, page_size)
         cursor = self.collection.find(filter_).skip(skip).limit(page_size)
         docs = await cursor.to_list(length=None)
-        docs = await self._transform_list_dict(docs)
+        docs = self._transform_list_dict(docs)
         return docs
 
     async def find_one(self, id_: str):
@@ -39,23 +39,23 @@ class BaseService:
     async def patch_one(self, id_: str, data: dict):
         await self.collection.update_one({"_id": bson.ObjectId(id_)}, {'$set': data})
         patch_doc = await self.collection.find_one({"_id": bson.ObjectId(id_)})
-        patch_doc = await self._transform_dict(patch_doc)
+        patch_doc = self._transform_dict(patch_doc)
         return patch_doc
 
     @staticmethod
-    async def _obj_to_json(my_list_dist):
+    def _obj_to_json(my_list_dist):
         return orjson.dumps(my_list_dist)
 
-    async def _transform_list_dict(self, my_list_dict: typing.List[dict]):
+    def _transform_list_dict(self, my_list_dict: typing.List[dict]):
         for my_dict in my_list_dict:
             my_dict['id'] = str(my_dict.pop('_id'))
-        return await self._obj_to_json(my_list_dict)
+        return self._obj_to_json(my_list_dict)
 
-    async def _transform_dict(self, my_dict: dict):
+    def _transform_dict(self, my_dict: dict):
         my_dict['id'] = str(my_dict.pop('_id'))
-        return await self._obj_to_json(my_dict)
+        return self._obj_to_json(my_dict)
 
     @staticmethod
-    async def _create_skip(page_number: int, page_size: int):
+    def _create_skip(page_number: int, page_size: int):
         skip = page_size * page_number
         return skip
