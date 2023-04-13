@@ -1,5 +1,5 @@
 conn = new Mongo();
-db = conn.getDB("ugc2_movies");
+db = conn.getDB("ugc2_films");
 
 db.createCollection("liked_films");
 db.createCollection("bookmarks_films");
