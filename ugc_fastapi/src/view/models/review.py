@@ -1,7 +1,8 @@
 import typing
 from datetime import datetime
 
-from pydantic import BaseModel, validator
+from pydantic import (BaseModel,
+                      validator)
 
 
 class RatingReview(BaseModel):

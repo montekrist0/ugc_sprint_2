@@ -2,7 +2,8 @@ import logging
 import os
 import sys
 
-from pydantic import BaseSettings, Field
+from pydantic import (BaseSettings,
+                      Field)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

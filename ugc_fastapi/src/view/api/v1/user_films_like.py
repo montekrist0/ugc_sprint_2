@@ -1,14 +1,18 @@
 import typing
-from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import (APIRouter,
+                     Depends,
+                     HTTPException,
+                     Response,
+                     status)
 
 from core.configs import logger
-from services.like import LikeService, get_like_service
+from services.like import (LikeService,
+                           get_like_service)
 from view.models.pagination import PaginationParameters
-from view.models.user_films_like import (
-    LikeUgcModel, LikeUgcModelPatch, LikeUgcModelResponse
-)
+from view.models.user_films_like import (LikeUgcModel,
+                                         LikeUgcModelPatch,
+                                         LikeUgcModelResponse)
 from view.services.pagination import get_pagination_parameters
 
 router = APIRouter()
