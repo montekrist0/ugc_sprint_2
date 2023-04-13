@@ -1,23 +1,17 @@
 import typing
 
 import orjson  # type: ignore
-
-from fastapi import (APIRouter,
-                     Depends,
-                     HTTPException,
-                     Response,
-                     status)
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from core.configs import logger
-from view.models.review import (ReviewUgcModelResponse,
-                                ReviewUgcModelPost,
-                                RatingReview,
-                                RatingReviewDelete)
-
-from view.models.pagination import PaginationParameters
-from view.services.pagination import get_pagination_parameters
-from services.review import ReviewService, get_review_service
 from services.like import LikeService, get_like_service
+from services.review import ReviewService, get_review_service
+from view.models.pagination import PaginationParameters
+from view.models.review import (
+    RatingReview, RatingReviewDelete, ReviewUgcModelPost,
+    ReviewUgcModelResponse
+)
+from view.services.pagination import get_pagination_parameters
 
 router = APIRouter()
 

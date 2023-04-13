@@ -1,19 +1,13 @@
 import typing
 from uuid import UUID
 
-from fastapi import (APIRouter,
-                     Depends,
-                     HTTPException,
-                     Response,
-                     status)
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from core.configs import logger
-from view.models.bookmark import (BookMarkUgcModelResponse,
-                                  BookMarkUgcModel)
+from services.bookmarks import BookMarksService, get_bookmarks_service
+from view.models.bookmark import BookMarkUgcModel, BookMarkUgcModelResponse
 from view.models.pagination import PaginationParameters
 from view.services.pagination import get_pagination_parameters
-from services.bookmarks import (get_bookmarks_service,
-                                BookMarksService)
 
 router = APIRouter()
 

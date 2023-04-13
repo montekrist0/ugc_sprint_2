@@ -1,9 +1,8 @@
 import typing
+
 import bson  # type: ignore
-
-from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
-
 import orjson  # type: ignore
+from motor.motor_asyncio import AsyncIOMotorCollection  # type: ignore
 
 
 class BaseService:
@@ -43,17 +42,17 @@ class BaseService:
         return patch_doc
 
     @staticmethod
-    def _obj_to_json(any_list_dist):
-        return orjson.dumps(any_list_dist)
+    def _obj_to_json(any_docs):
+        return orjson.dumps(any_docs)
 
-    def _transform_list_dict(self, any_list_dist_with_id_bottom_underline: typing.List[dict]):
-        for my_dict in any_list_dist_with_id_bottom_underline:
-            my_dict['id'] = str(my_dict.pop('_id'))
-        return self._obj_to_json(any_list_dist_with_id_bottom_underline)
+    def _transform_list_dict(self, mongo_docs: typing.List[dict]):
+        for mongo_doc in mongo_docs:
+            mongo_doc['id'] = str(mongo_doc.pop('_id'))
+        return self._obj_to_json(mongo_docs)
 
-    def _transform_dict(self, my_dict_with_bottom_underline: dict):
-        my_dict_with_bottom_underline['id'] = str(my_dict_with_bottom_underline.pop('_id'))
-        return self._obj_to_json(my_dict_with_bottom_underline)
+    def _transform_dict(self, mongo_doc: dict):
+        mongo_doc['id'] = str(mongo_doc.pop('_id'))
+        return self._obj_to_json(mongo_doc)
 
     @staticmethod
     def _create_skip(page_number: int, page_size: int):
